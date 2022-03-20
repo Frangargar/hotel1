@@ -119,13 +119,11 @@ public class Hotel {
 
     public int[] BuscaLibre(Hotel hab){
         int p,h;
-        for (p=0; p<NPLANT -1;p--){
+        for (p=0; p<NPLANT ;p++){
             for (h=0;h<NHAB;h++){
                 if (hab.hotel[p][h].equals(vacio)){
-
                     return new int[]{p,h};
                 }
-                return new int[]{0};
             }
         }
 
