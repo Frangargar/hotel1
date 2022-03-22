@@ -6,19 +6,18 @@ public class Main {
         Reserva reserva = new Reserva(5656565,"Fran","garcia",4554654,8454575,12/11/23,21/11/23,"platano");
         Reserva reserva1 = new Reserva(5656565,"Sergio","garcia",4554654,8454575,12/11/23,21/11/23,"platano");
 
-        hotel.HacerReserva(hotel,reserva,1,15);
-        hotel.HacerReserva(hotel,reserva1,3,2);
-        hotel.HacerReserva(hotel,reserva,2,2);
-        hotel.HacerReserva(hotel,reserva1,1,2);
+        hotel.HacerReserva(reserva,1,15);
+        hotel.HacerReserva(reserva1,3,2);
+        hotel.HacerReserva(reserva,2,2);
+        hotel.HacerReserva(reserva1,1,2);
         //hotel.AnularReserva(hotel,reserva,1,3);
-        hotel.AnularReserva(hotel,reserva1,1,1);
-        hotel.toString(hotel);
+        hotel.AnularReserva(reserva1,1,1);
 
-        System.out.print("\n"+hotel.hotel[0][0]);
-        System.out.print("\n"+hotel.hotel[5][4]+"\n");
+        System.out.println(hotel.toString());
 
         hotel.VaciaHotel(hotel);
-        hotel.toString(hotel);
+
+
 
     }
 }

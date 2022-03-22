@@ -6,17 +6,16 @@ import java.util.Objects;
 public class Hotel {
     final int NPLANT=8;
     final int NHAB = 6;
-    final String vacio="vacia";
     final int habitacion=1;
     final int suite=2;
     final int balcon=3;
-    protected String [][] hotel =new String[NPLANT][NHAB] ;
+    protected Reserva [][] hotel =new Reserva[NPLANT][NHAB] ;
 
     public Hotel(){
         int p,h;
         for(p=0;p<NPLANT;p++)
             for (h=0;h<NHAB;h++)
-                hotel[p][h]=vacio;
+                hotel[p][h]=null;
     }
 
 
@@ -26,18 +25,18 @@ public class Hotel {
         int p,h;
         for(p=0;p<NPLANT;p++)
             for (h=0;h<NHAB;h++)
-                hab.hotel[p][h]=vacio;
+                hab.hotel[p][h]=null;
     }
 
-    private void Anular(Hotel hab,Reserva reserva,int tip,MinInteger planta,MinInteger habit){
+    private void Anular(Reserva reserva,int tip,MinInteger planta,MinInteger habit){
         int p,h;
         switch (tip){
             case 1:
                 for (p=7;p>2;p--){
                     for (h=0;h<NHAB;h++){
-                        if(hab.hotel[p][h].equals(vacio)){
+                        if(hotel[p][h]==null){
                             planta.setA(-1);
-                        }else if(hab.hotel[p][h].equals(getReserva(reserva,p,h))) {
+                        }else if(hotel[p][h]==reserva) {
                             planta.setA(p);
                             habit.setA(h);
                             return;
@@ -47,9 +46,9 @@ public class Hotel {
                 break;
             case 2:
                 for (h = 0; h < NHAB; h++) {
-                    if (hab.hotel[0][h].equals(vacio)) {
+                    if (hotel[0][h]==null) {
                         planta.setA(-1);
-                    }else if(hab.hotel[0][h].equals(getReserva(reserva,0,h))){
+                    }else if(hotel[0][h]==reserva){
                         planta.setA(0);
                         habit.setA(h);
                         return;
@@ -59,9 +58,9 @@ public class Hotel {
             case 3:
                 for (p = 2; p > 1; p--) {
                     for (h = 0; h < NHAB; h++) {
-                        if (hab.hotel[p][h].equals(vacio)) {
+                        if (hotel[p][h]==null) {
                             planta.setA(-1);
-                        }else if(hab.hotel[p][h].equals(getReserva(reserva,p,h))){
+                        }else if(hotel[p][h]==reserva){
                             planta.setA(p);
                             habit.setA(h);
                             return;
@@ -72,14 +71,14 @@ public class Hotel {
         }
     }
 
-    private void BuscaHabitación(Hotel hab,int tip, MinInteger planta, MinInteger habit){
+    private void BuscaHabitación(int tip, MinInteger planta, MinInteger habit){
         int p,h;
         switch (tip) {
             case 1:
 
                     for (p = 7; p > 2; p--) {
                         for (h = 0; h < NHAB; h++) {
-                            if (hab.hotel[p][h].equals(vacio)) {
+                            if (hotel[p][h]==null) {
                                 planta.setA(p);
                                 habit.setA(h);
                                 return;
@@ -91,7 +90,7 @@ public class Hotel {
             case 2:
 
                         for (h = 0; h < NHAB; h++) {
-                            if (hab.hotel[0][h].equals(vacio)) {
+                            if (hotel[0][h]==null) {
                                 planta.setA(0);
                                 habit.setA(h);
                                 return;
@@ -103,7 +102,7 @@ public class Hotel {
             case 3:
                     for (p = 2; p > 1; p--) {
                         for (h = 0; h < NHAB; h++) {
-                            if (hab.hotel[p][h].equals(vacio)) {
+                            if (hotel[p][h]==null) {
                                 planta.setA(p);
                                 habit.setA(h);
                                 return;
@@ -117,11 +116,11 @@ public class Hotel {
     }
 
 
-    public int[] BuscaLibre(Hotel hab){
+    public int[] BuscaLibre(){
         int p,h;
         for (p=0; p<NPLANT ;p++){
             for (h=0;h<NHAB;h++){
-                if (hab.hotel[p][h].equals(vacio)){
+                if (hotel[p][h]==null){
                     return new int[]{p,h};
                 }
             }
@@ -134,51 +133,52 @@ public class Hotel {
         return "Habitación:"+hab+" Planta:"+(NPLANT-pla)+" DNI: "+reserva.DNI+" Nombre y apellidos: "+reserva.nombre+","+reserva.apellido;
     }
 
-    public boolean HacerReserva(Hotel hab,Reserva res,int tipo,int cantidad){
+    public boolean HacerReserva(Reserva res,int tipo,int cantidad){
         MinInteger p = new MinInteger(0);
         MinInteger h = new MinInteger(0);
         for (int i=0;i<cantidad;i++) {
-            BuscaHabitación(hab,tipo, p, h);
+            BuscaHabitación(tipo, p, h);
             if (p.getA() != -1) {
-                hab.hotel[p.a][h.a] = getReserva(res,p.a,h.a);
+                hotel[p.a][h.a] = res;
 
             } else return false;
         }
         return true;
     }
 
-    public  boolean AnularReserva(Hotel hab,Reserva reserva,int tipo, int cantidad){
+    public  boolean AnularReserva(Reserva reserva,int tipo, int cantidad){
         MinInteger p = new MinInteger(0);
         MinInteger h = new MinInteger(0);
         for (int i=0;i<cantidad;i++){
-            Anular(hab,reserva,tipo,p,h);
+            Anular(reserva,tipo,p,h);
             if(p.getA()!=-1){
-                hab.hotel[p.a][h.a]=vacio;
+                hotel[p.a][h.a]=null;
             }else return false;
         }
         return true;
     }
 
-    public void toString (Hotel hab)
+    public String toString ()
     {
         int p,h,aux;
         aux=NPLANT;
-        System.out.print("   ");
+        String str="a";
         for (h=0;h<NHAB;h++)
             if (h<9) {
-                System.out.printf("%d  ",h+1);
-            } else   System.out.printf("%d ",h+1);
-        System.out.print("\n");
+                str= (h+1)+" ";
+            } else   str= (h+1)+" ";
+        str="\n";
 
         for(p=0;p<NPLANT;p++)
         {
-            System.out.printf("%d  ", aux);
+            str= (aux)+"";
             for (h=0;h<NHAB;h++)
-                if (hab.hotel[p][h].equals(vacio)) System.out.print("L  ");
-                else System.out.print("R  ");
-            System.out.print("\n");
+                if (hotel[p][h]==null) str= "L ";
+                else str= "L ";
+            str="\n";
             aux--;
         }
+        return str;
     }
 
 
