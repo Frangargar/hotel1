@@ -20,12 +20,12 @@ public class Hotel {
 
 
 
-    public void VaciaHotel (Hotel hab)
+    public void VaciaHotel ()
     {
         int p,h;
         for(p=0;p<NPLANT;p++)
             for (h=0;h<NHAB;h++)
-                hab.hotel[p][h]=null;
+                hotel[p][h]=null;
     }
 
     private void Anular(Reserva reserva,int tip,MinInteger planta,MinInteger habit){
@@ -162,20 +162,20 @@ public class Hotel {
     {
         int p,h,aux;
         aux=NPLANT;
-        String str="a";
+        String str = new String();
         for (h=0;h<NHAB;h++)
             if (h<9) {
-                str= (h+1)+" ";
-            } else   str= (h+1)+" ";
-        str="\n";
+                str= str+(h+1)+" ";
+            } else   str= str+(h+1)+" ";
+        str=str+"\n";
 
         for(p=0;p<NPLANT;p++)
         {
-            str= (aux)+"";
+            str=str+ (aux)+"";
             for (h=0;h<NHAB;h++)
-                if (hotel[p][h]==null) str= "L ";
-                else str= "L ";
-            str="\n";
+                if (hotel[p][h]==null) str=str+ "L ";
+                else str= "R ";
+            str=str+"\n";
             aux--;
         }
         return str;

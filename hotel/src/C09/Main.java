@@ -15,7 +15,7 @@ public class Main {
 
         System.out.println(hotel.toString());
 
-        hotel.VaciaHotel(hotel);
+        hotel.VaciaHotel();
 
 
 
